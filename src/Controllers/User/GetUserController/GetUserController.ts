@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MongoGetUsersRepository } from "../../Repositories/get-users";
+import { MongoGetUsersRepository } from "../../../Repositories/get-users";
 
 export const GetUserController = {
   async handle(_: Request, res: Response) {

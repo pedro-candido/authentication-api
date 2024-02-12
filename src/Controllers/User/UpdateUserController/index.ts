@@ -1,0 +1,1 @@
+export { UpdateUserController } from "./UpdateUserController";

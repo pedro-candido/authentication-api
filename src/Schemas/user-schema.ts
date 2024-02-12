@@ -2,6 +2,10 @@ import { Schema } from "mongoose";
 import { Crypt } from "../Utils/crypt";
 
 const userSchema = new Schema({
+  _id: {
+    type: Schema.Types.ObjectId,
+    auto: true,
+  },
   username: {
     type: String,
     required: true,

@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { MongoCreateUserRepository } from "../../Repositories/create-user";
-import { Crypt } from "../../Utils/crypt";
-import { Format } from "../../Utils/format";
+import { MongoPutUserRepository } from "../../../Repositories/put-user";
+import { Format } from "../../../Utils/format";
 
-export const PostUserController = {
+export const UpdateUserController = {
   async handle(req: Request, res: Response) {
     const phoneFormatted = Format.removeSpecialCharactersFromPhone(
       req.body.phone
     );
 
-    const user = await MongoCreateUserRepository.createUser({
+    const user = await MongoPutUserRepository.updateUser(req.params.username, {
       ...req.body,
       phone: phoneFormatted,
     });
