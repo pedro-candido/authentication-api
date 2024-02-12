@@ -1,1 +1,0 @@
-export { UpdateUserController } from "./UpdateUserController";

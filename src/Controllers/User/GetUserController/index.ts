@@ -1,1 +1,0 @@
-export { GetUserController } from "./GetUserController";

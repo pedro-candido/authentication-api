@@ -1,17 +1,14 @@
 import { Router } from "express";
-import { GetUserController } from "../Controllers/User/GetUserController";
-import { PostUserController } from "../Controllers/User/PostUserController";
-import { UpdateUserController } from "../Controllers/User/UpdateUserController/UpdateUserController";
-import { DeleteUserController } from "../Controllers/User/DeleteUserController/DeleteUserController";
+import { UserController } from "../Controllers/UserController";
 
 const routes = Router();
 
-routes.get("/users", GetUserController.handle);
+routes.get("/users", UserController.get);
 
-routes.post("/user", PostUserController.handle);
+routes.post("/user", UserController.create);
 
-routes.put("/user/:username", UpdateUserController.handle);
+routes.put("/user/:username", UserController.update);
 
-routes.delete("/user/:username", DeleteUserController.handle);
+routes.delete("/user/:username", UserController.delete);
 
 export default routes;
