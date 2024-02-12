@@ -1,38 +1,51 @@
+import { Response } from "express";
 import UserModel from "../../../Models/user";
 
-export class UserRepository {
-  static async createUser(data: typeof UserModel) {
+interface IUserRepository {
+  createUser: (data: typeof UserModel) => void;
+  getUsers: () => Promise<(typeof UserModel)[]>;
+  updateUser: (username: string, data: typeof UserModel, res: Response) => void;
+  deleteUser: (username: string) => Promise<boolean>;
+}
+
+export class UserRepository implements IUserRepository {
+  async createUser(data: typeof UserModel) {
     const user = new UserModel(data);
     await user.save();
 
     return user;
   }
 
-  static async getUsers() {
-    const users = await UserModel.find();
+  async getUsers() {
+    const users: (typeof UserModel)[] = await UserModel.find();
 
     return users;
   }
 
-  static async updateUser(username: string, data: typeof UserModel) {
+  async updateUser(username: string, data: typeof UserModel, res: Response) {
     const item = await UserModel.findOne({ username });
 
-    item?.overwrite(data).save();
+    if (!item) {
+      res.status(404).send("User not found");
+      return;
+    }
 
-    return item;
+    item?.overwrite(data).save();
+    res.status(200).send("User updated");
+
+    return;
   }
 
-  static async deleteUser(username: string) {
+  async deleteUser(username: string) {
     const user = await UserModel.findOne({
       username,
     });
 
-    if (!user) {
-      return;
+    if (!!user) {
+      await UserModel.findByIdAndDelete(user._id);
+      return true;
     }
 
-    await UserModel.findByIdAndDelete(user._id);
-
-    return;
+    return false;
   }
 }
