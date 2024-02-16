@@ -1,17 +1,16 @@
 import { Response } from "express";
 import UserModel from "../../../Models/user";
 
-interface IUserRepository {
-  createUser: (data: typeof UserModel) => void;
-  getUsers: () => Promise<(typeof UserModel)[]>;
-  updateUser: (username: string, data: typeof UserModel, res: Response) => void;
-  deleteUser: (username: string) => Promise<boolean>;
-}
-
-export class UserRepository implements IUserRepository {
+export class UserRepository {
   async createUser(data: typeof UserModel) {
     const user = new UserModel(data);
     await user.save();
+
+    return user;
+  }
+
+  async findUser(type: string, value: string) {
+    const user = UserModel.findOne({ [type]: value }).exec();
 
     return user;
   }
